@@ -1,6 +1,5 @@
 package com.jmtp.jabakardex.controller;
 
-import com.jmtp.jabakardex.model.Kardex;
 import com.jmtp.jabakardex.model.TipoJabaMatriz;
 import com.jmtp.jabakardex.repository.TipoJabaMatrizRepository;
 import com.jmtp.jabakardex.utils.IdWrapper;
@@ -22,7 +21,7 @@ public class TipoJabaMatrizController {
 
     @GetMapping("/all")
     public List<TipoJabaMatriz> getAll(){
-        return tjmr.findAll( Sort.by(Sort.Direction.DESC, "id") );
+        return tjmr.findAll( Sort.by(Sort.Direction.ASC, "name") );
     }
 
     @PostMapping("/get")
@@ -33,7 +32,7 @@ public class TipoJabaMatrizController {
     @PostMapping(value="/save",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public TipoJabaMatriz save (TipoJabaMatriz tipojaba){
+    public TipoJabaMatriz save (@RequestBody TipoJabaMatriz tipojaba){
         return tjmr.save(tipojaba);
     }
 

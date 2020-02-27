@@ -34,7 +34,7 @@ public class TipoJabaController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public TipoJaba save(@RequestBody TipoJaba tjaba){
-        return null;
+        return tjr.save(tjaba);
     }
 
 }

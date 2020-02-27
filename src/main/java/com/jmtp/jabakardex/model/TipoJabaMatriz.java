@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @JsonIgnoreProperties(value = { "target" })
 public class TipoJabaMatriz extends AbstractDocument{
     
-    public String name, abreviacion;
+    private String name, abreviacion;
 
     public TipoJabaMatriz(){
         super();

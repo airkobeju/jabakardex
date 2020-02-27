@@ -8,12 +8,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @JsonIgnoreProperties(value = { "target" })
 public class TipoJaba extends AbstractDocument{
     
-    public int cantidad;
+    private int cantidad;
     @DBRef(lazy = true)
-    public TipoJabaMatriz tipoJaba;
+    private TipoJabaMatriz tipoJaba;
 
     public TipoJaba(){
         super();
+    }
+
+    public TipoJaba(int cantidad, TipoJabaMatriz tipoJaba) {
+        this.cantidad = cantidad;
+        this.tipoJaba = tipoJaba;
     }
 
     public int getCantidad(){
