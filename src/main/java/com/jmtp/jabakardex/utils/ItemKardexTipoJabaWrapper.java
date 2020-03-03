@@ -1,7 +1,5 @@
 package com.jmtp.jabakardex.utils;
 
-import com.jmtp.jabakardex.model.TipoJaba;
-
 public class ItemKardexTipoJabaWrapper {
 
     private String idItemKardexDetail;

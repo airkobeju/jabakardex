@@ -3,6 +3,7 @@ package com.jmtp.jabakardex.controller;
 import com.jmtp.jabakardex.model.TipoJabaMatriz;
 import com.jmtp.jabakardex.repository.TipoJabaMatrizRepository;
 import com.jmtp.jabakardex.utils.IdWrapper;
+import com.jmtp.jabakardex.utils.ValueStringWrapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,13 @@ public class TipoJabaMatrizController {
     @PostMapping("/get")
     public TipoJabaMatriz getKardexEntry(@RequestBody IdWrapper idwrapper){
         return tjmr.findById(idwrapper.getId()).get();
+    }
+
+    @PostMapping(value="/findByAbreviacion",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public TipoJabaMatriz getEntry(@RequestBody ValueStringWrapper obj){
+        return tjmr.findByAbreviacion( obj.getValue() );
     }
 
     @PostMapping(value="/save",

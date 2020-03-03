@@ -3,6 +3,7 @@ package com.jmtp.jabakardex.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -53,6 +54,17 @@ public class ItemKardexDetail extends AbstractDocument{
     }
     public List<TipoJaba> getTipoJaba(){
         return this.tipoJaba;
+    }
+
+    @JsonIgnore
+    public int tipoJabaLenght(){
+        int i = 0;
+
+        for (TipoJaba obj: this.tipoJaba){
+            i += obj.getCantidad();
+        }
+        System.out.println(i);
+        return i;
     }
 
 }
