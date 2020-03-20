@@ -1,7 +1,7 @@
 package com.jmtp.jabakardex.controller;
 
-import com.jmtp.jabakardex.model.KardexSerie;
-import com.jmtp.jabakardex.repository.KardexSerieRepository;
+import com.jmtp.jabakardex.model.SerieBoleta;
+import com.jmtp.jabakardex.repository.SerieBoletaRepository;
 import com.jmtp.jabakardex.utils.IdWrapper;
 import com.jmtp.jabakardex.utils.KardexSerieWrapper;
 import org.springframework.http.MediaType;
@@ -13,27 +13,27 @@ import java.util.List;
 @RequestMapping("/rest/kardexserie")
 public class KardexSerieController {
 
-    private KardexSerieRepository ksr;
+    private SerieBoletaRepository ksr;
 
-    public KardexSerieController(KardexSerieRepository ksr) {
+    public KardexSerieController(SerieBoletaRepository ksr) {
         this.ksr = ksr;
     }
 
     @GetMapping("/all")
-    public List<KardexSerie> getAll(){
+    public List<SerieBoleta> getAll(){
         return ksr.findAll();
     }
 
     @PostMapping(value = "/get")
-    public KardexSerie getKardexSerie(@RequestBody IdWrapper idwrapper){
+    public SerieBoleta getKardexSerie(@RequestBody IdWrapper idwrapper){
         return ksr.findById( idwrapper.getId() ).get();
     }
 
     @PostMapping(value="/save",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public KardexSerie save(@RequestBody KardexSerieWrapper ksw){
-        return ksr.save( new KardexSerie(ksw.getValue(),ksw.getNote()));
+    public SerieBoleta save(@RequestBody KardexSerieWrapper ksw){
+        return ksr.save( new SerieBoleta(ksw.getValue(),ksw.getNote()));
     }
 
 }

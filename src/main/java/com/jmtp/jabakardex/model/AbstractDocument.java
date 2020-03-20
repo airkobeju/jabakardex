@@ -20,12 +20,18 @@ import org.springframework.data.annotation.Id;
 /**
  * Base class for document classes.
  * 
- * @author Oliver Gierke
+ * @author Juan Manuel  Ticona Pacheco
  */
-public class AbstractDocument {
+public abstract class AbstractDocument {
 
 	@Id
 	protected String id;
+
+
+	public void setId(String id) {
+		if(id != "")
+			this.id = id;
+	}
 
 	/**
 	 * Returns the identifier of the document.

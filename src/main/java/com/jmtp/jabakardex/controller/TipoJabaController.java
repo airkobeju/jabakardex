@@ -1,8 +1,7 @@
 package com.jmtp.jabakardex.controller;
 
-import com.jmtp.jabakardex.model.Kardex;
-import com.jmtp.jabakardex.model.TipoJaba;
-import com.jmtp.jabakardex.repository.TipoJabaRepository;
+import com.jmtp.jabakardex.model.ItemTipoJaba;
+import com.jmtp.jabakardex.repository.ItemTipoJabaRepository;
 import com.jmtp.jabakardex.utils.IdWrapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
@@ -14,26 +13,26 @@ import java.util.List;
 @RequestMapping("/rest/tipojaba")
 public class TipoJabaController {
 
-    private TipoJabaRepository tjr;
+    private ItemTipoJabaRepository tjr;
 
-    public TipoJabaController(TipoJabaRepository tjr) {
+    public TipoJabaController(ItemTipoJabaRepository tjr) {
         this.tjr = tjr;
     }
 
     @GetMapping("/all")
-    public List<TipoJaba> getAll(){
+    public List<ItemTipoJaba> getAll(){
         return tjr.findAll( Sort.by(Sort.Direction.DESC, "id" ));
     }
 
     @PostMapping("/get")
-    public TipoJaba getKardexEntry(@RequestBody IdWrapper idwrapper){
+    public ItemTipoJaba getKardexEntry(@RequestBody IdWrapper idwrapper){
         return tjr.findById(idwrapper.getId()).get();
     }
 
     @PostMapping(value="/save",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public TipoJaba save(@RequestBody TipoJaba tjaba){
+    public ItemTipoJaba save(@RequestBody ItemTipoJaba tjaba){
         return tjr.save(tjaba);
     }
 

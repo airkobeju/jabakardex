@@ -1,22 +1,20 @@
 package com.jmtp.jabakardex.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "tipo_jaba")
-@JsonIgnoreProperties(value = { "target" })
-public class TipoJaba extends AbstractDocument{
+@Document(collation = "item_tipo_jaba")
+public class ItemTipoJaba extends AbstractDocument{
     
     private int cantidad;
-    @DBRef(lazy = true)
+    @DBRef
     private TipoJabaMatriz tipoJaba;
 
-    public TipoJaba(){
+    public ItemTipoJaba(){
         super();
     }
 
-    public TipoJaba(int cantidad, TipoJabaMatriz tipoJaba) {
+    public ItemTipoJaba(int cantidad, TipoJabaMatriz tipoJaba) {
         this.cantidad = cantidad;
         this.tipoJaba = tipoJaba;
     }
@@ -28,10 +26,10 @@ public class TipoJaba extends AbstractDocument{
         this.cantidad = cantidad;
     }
 
-    public TipoJabaMatriz getTipoJabaMatriz(){
+    public TipoJabaMatriz getTipoJaba(){
         return this.tipoJaba;
     }
-    public void setTipoJabaMatriz(TipoJabaMatriz tipojaba){
+    public void setTipoJaba(TipoJabaMatriz tipojaba){
         this.tipoJaba = tipojaba;
     }
 

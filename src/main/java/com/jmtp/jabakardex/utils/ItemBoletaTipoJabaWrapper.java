@@ -1,26 +1,26 @@
 package com.jmtp.jabakardex.utils;
 
-public class ItemKardexTipoJabaWrapper {
+public class ItemBoletaTipoJabaWrapper {
 
-    private String idItemKardexDetail;
+    private String idItemBoletal;
     private int cantidad;
     private String abreviacion;
 
-    public ItemKardexTipoJabaWrapper() {
+    public ItemBoletaTipoJabaWrapper() {
     }
 
-    public ItemKardexTipoJabaWrapper(String idItemKardexDetail, int cantidad, String abreviacion) {
-        this.idItemKardexDetail = idItemKardexDetail;
+    public ItemBoletaTipoJabaWrapper(String idItemBoletal, int cantidad, String abreviacion) {
+        this.idItemBoletal = idItemBoletal;
         this.cantidad = cantidad;
         this.abreviacion = abreviacion;
     }
 
-    public String getIdItemKardexDetail() {
-        return idItemKardexDetail;
+    public String getIdItemBoletal() {
+        return idItemBoletal;
     }
 
-    public void setIdItemKardexDetail(String idItemKardexDetail) {
-        this.idItemKardexDetail = idItemKardexDetail;
+    public void setIdItemBoletal(String idItemBoletal) {
+        this.idItemBoletal = idItemBoletal;
     }
 
     public int getCantidad() {

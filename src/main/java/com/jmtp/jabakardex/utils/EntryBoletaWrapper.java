@@ -6,15 +6,16 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class EntryKardexWrapper {
+public class EntryBoletaWrapper {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha;
     private String serieId;
     private String proveedorId;
-    private List<PesoWrapper> pesos = new ArrayList<>();
+    private List<PesoWrapper> entradas = new ArrayList<>();
+    private List<PesoWrapper> salidas = new ArrayList<>();
 
-    public EntryKardexWrapper(){
+    public EntryBoletaWrapper(){
         super();
     }
 
@@ -42,11 +43,11 @@ public class EntryKardexWrapper {
         this.proveedorId = proveedorId;
     }
 
-    public List<PesoWrapper> getPesos(){
-        return this.pesos;
+    public List<PesoWrapper> getEntradas(){
+        return this.entradas;
     }
     public PesoWrapper getPeso(int index){
-        return this.pesos.get(index);
+        return this.entradas.get(index);
     }
 
 }

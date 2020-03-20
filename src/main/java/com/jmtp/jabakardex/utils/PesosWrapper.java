@@ -3,26 +3,26 @@ package com.jmtp.jabakardex.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemsKardexWrapper{
+public class PesosWrapper {
  
-    private String idKardex;
+    private String idBoleta;
     private List<PesoWrapper> pesos = new ArrayList<>();
 
-    public ItemsKardexWrapper(){}
-    public ItemsKardexWrapper(List<PesoWrapper> items){
+    public PesosWrapper(){}
+    public PesosWrapper(List<PesoWrapper> items){
         this.pesos=items;
     }
-    public ItemsKardexWrapper(String idKardex, List<PesoWrapper> items){
-        this.idKardex=idKardex;
+    public PesosWrapper(String idBoleta, List<PesoWrapper> items){
+        this.idBoleta = idBoleta;
         this.pesos=items;
     }
 
-    public String getIdKardex(){
-        return this.idKardex;
+    public String getIdBoleta(){
+        return this.idBoleta;
     }
 
-    public void setIdKardex(String id){
-        this.idKardex = id;
+    public void setIdBoleta(String id){
+        this.idBoleta = id;
     }
 
     public void setItems(List<PesoWrapper> items){

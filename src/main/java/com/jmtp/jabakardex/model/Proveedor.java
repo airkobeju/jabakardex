@@ -1,12 +1,9 @@
 package com.jmtp.jabakardex.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "proveedor")
-@JsonIgnoreProperties(value = { "target" })
 public class Proveedor extends AbstractDocument{
 
     @Indexed(unique = true)
@@ -15,7 +12,13 @@ public class Proveedor extends AbstractDocument{
     private String lastName;
 
     public Proveedor(){
+        super();
+    }
 
+    public Proveedor(String name, String firstName, String lastName) {
+        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public void setName(String name){
