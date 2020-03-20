@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
 @Document(collection = "items_salida")
-public class ItemsSalida extends ItemBoletaDetail {
+public final class ItemsSalida extends ItemBoletaDetail {
 
     public ItemsSalida() {
         super();

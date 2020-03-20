@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -33,6 +34,14 @@ public class Boleta extends AbstractDocument {
     public Boleta(LocalDate fecha, Proveedor proveedor) {
         this.fecha=fecha;
         this.proveedor=proveedor;
+    }
+
+    public Boleta(SerieBoleta serie, Long numeracion, LocalDate fecha, Proveedor proveedor, String nota) {
+        this.serie = serie;
+        this.numeracion = numeracion;
+        this.fecha = fecha;
+        this.proveedor = proveedor;
+        this.nota = nota;
     }
 
     public SerieBoleta getSerie() {
@@ -96,5 +105,21 @@ public class Boleta extends AbstractDocument {
     }
     public void setClose(boolean close) {
         isClose = close;
+    }
+
+    @Override
+    @JsonIgnoreProperties
+    public String toString() {
+        return "Boleta{" +
+                "serie=" + serie +
+                ", numeracion=" + numeracion +
+                ", fecha=" + fecha +
+                ", proveedor=" + proveedor +
+                ", itemsEntrada=" + itemsEntrada +
+                ", itemsSalida=" + itemsSalida +
+                ", venta=" + venta +
+                ", isClose=" + isClose +
+                ", id='" + id + '\'' +
+                '}';
     }
 }

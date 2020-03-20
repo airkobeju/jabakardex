@@ -1,5 +1,6 @@
 package com.jmtp.jabakardex.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mongodb.lang.Nullable;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -37,5 +38,15 @@ public class SerieBoleta extends AbstractDocument {
 
     public void setNota(String nota) {
         this.nota = nota;
+    }
+
+    @Override
+    @JsonIgnoreProperties
+    public String toString() {
+        return "SerieBoleta{" +
+                "value='" + value + '\'' +
+                ", nota='" + nota + '\'' +
+                ", id='" + id + '\'' +
+                '}';
     }
 }

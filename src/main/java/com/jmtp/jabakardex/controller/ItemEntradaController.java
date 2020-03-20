@@ -27,17 +27,17 @@ public class ItemEntradaController {
         this.tjr = tjr;
     }
 
-    @GetMapping("/all")
+    @GetMapping(path = {"", "/all"})
     public List<ItemsEntrada> getAll(){
         return ibdr.findAll();
     }
 
-    @GetMapping("/get/{itemId}")
+    @GetMapping(path = {"/{itemId}", "/get/{itemId}"})
     public ItemsEntrada getItemsEntrada(@PathVariable(name = "itemId") String id){
         return ibdr.findById(id).get();
     }
 
-    @PutMapping("/save")
+    @PutMapping(path = {"", "/save"})
     public ItemsEntrada save(@RequestBody ItemsEntrada item){
         return ibdr.save(item);
     }

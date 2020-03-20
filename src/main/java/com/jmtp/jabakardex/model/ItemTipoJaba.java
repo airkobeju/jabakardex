@@ -3,7 +3,7 @@ package com.jmtp.jabakardex.model;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "item_tipo_jaba")
+@Document(collection = "item_tipo_jaba")
 public class ItemTipoJaba extends AbstractDocument{
     
     private int cantidad;

@@ -1,5 +1,6 @@
 package com.jmtp.jabakardex.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -42,4 +43,14 @@ public class Proveedor extends AbstractDocument{
         return this.lastName;
     }
 
+    @Override
+    @JsonIgnoreProperties
+    public String toString() {
+        return "Proveedor{" +
+                "name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", id='" + id + '\'' +
+                '}';
+    }
 }

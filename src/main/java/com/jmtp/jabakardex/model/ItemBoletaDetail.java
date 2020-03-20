@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public abstract class ItemBoletaDetail extends AbstractDocument{
@@ -66,4 +67,15 @@ public abstract class ItemBoletaDetail extends AbstractDocument{
         return i;
     }
 
+    @Override
+    @JsonIgnoreProperties
+    public String toString() {
+        return "ItemBoletaDetail{" +
+                "cantidad=" + cantidad +
+                ", peso=" + peso +
+                ", nota='" + nota + '\'' +
+                ", tipoJaba=" + tipoJaba +
+                ", id='" + id + '\'' +
+                '}';
+    }
 }

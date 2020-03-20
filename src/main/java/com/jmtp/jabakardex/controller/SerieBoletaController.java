@@ -11,11 +11,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rest/kardexserie")
-public class KardexSerieController {
+public class SerieBoletaController {
 
     private SerieBoletaRepository ksr;
 
-    public KardexSerieController(SerieBoletaRepository ksr) {
+    public SerieBoletaController(SerieBoletaRepository ksr) {
         this.ksr = ksr;
     }
 

@@ -11,11 +11,7 @@ import com.jmtp.jabakardex.utils.PesoWrapper;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/rest/boleta")
@@ -43,17 +39,19 @@ public class BoletaController {
         this.tipoJabaRepo = tipoJabaRepo;
     }
 
-    @GetMapping("/all")
+    @GetMapping(path = {"", "/all"})
     public List<Boleta> getAll(){
         return boletaRepository.findAll(Sort.by(Sort.Direction.DESC, "fecha"));
     }
 
     @PostMapping("/get")
     public Boleta getKardexEntry(@RequestBody IdWrapper idwrapper){
-        Boleta boleta = boletaRepository.findById(idwrapper.getId()).get();
-        boleta.getItemsEntrada();
-        boleta.getItemsSalida();
-        return boleta;
+        return boletaRepository.findById(idwrapper.getId()).get();
+    }
+
+    @GetMapping("/{id}")
+    public Boleta getEntryById(@PathVariable(name = "id") String id){
+        return boletaRepository.findById(id).get();
     }
 
     @PostMapping(value="/save", 
