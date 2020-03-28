@@ -2,6 +2,7 @@ package com.jmtp.jabakardex.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "proveedor")
@@ -11,6 +12,8 @@ public class Proveedor extends AbstractDocument{
     private String name;
     private String firstName;
     private String lastName;
+    @DBRef
+    private TipoJabaMatriz tipoJaba;
 
     public Proveedor(){
         super();
@@ -20,6 +23,13 @@ public class Proveedor extends AbstractDocument{
         this.name = name;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Proveedor(String name, String firstName, String lastName, TipoJabaMatriz tipoJaba) {
+        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.tipoJaba = tipoJaba;
     }
 
     public void setName(String name){
@@ -41,6 +51,13 @@ public class Proveedor extends AbstractDocument{
     }
     public String getLastName(){
         return this.lastName;
+    }
+
+    public TipoJabaMatriz getTipoJaba() {
+        return tipoJaba;
+    }
+    public void setTipoJaba(TipoJabaMatriz tipoJaba) {
+        this.tipoJaba = tipoJaba;
     }
 
     @Override

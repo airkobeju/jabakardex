@@ -7,4 +7,6 @@ public interface TipoJabaMatrizRepository extends MongoRepository<TipoJabaMatriz
 
     TipoJabaMatriz findByAbreviacion(String abreviacion);
 
+    TipoJabaMatriz findByDefaultJaba(boolean defaultJaba);
+
 }

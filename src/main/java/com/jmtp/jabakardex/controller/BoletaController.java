@@ -9,6 +9,7 @@ import com.jmtp.jabakardex.utils.CompraPesosWrapper;
 import com.jmtp.jabakardex.utils.IdWrapper;
 import com.jmtp.jabakardex.utils.PesoWrapper;
 
+import com.jmtp.jabakardex.utils.Utils;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class BoletaController {
     private ItemBoletaDetailRepository<ItemsSalida>  salidasRepo;
     private SerieBoletaRepository ksr;
     private ItemTipoJabaRepository tipoJabaRepo;
+    private TipoJabaMatrizRepository tjmRepo;
 
     public BoletaController(
         BoletaRepository boletaRepository,
@@ -30,13 +32,15 @@ public class BoletaController {
         ItemBoletaDetailRepository<ItemsEntrada>  entradasRepo,
         ItemBoletaDetailRepository<ItemsSalida>  salidasRepo,
         SerieBoletaRepository ksr,
-        ItemTipoJabaRepository tipoJabaRepo){
+        ItemTipoJabaRepository tipoJabaRepo,
+        TipoJabaMatrizRepository tjmRepo){
         this.boletaRepository = boletaRepository;
         this.proveedorRepository = proveedorRepository;
         this.entradasRepo = entradasRepo;
         this.salidasRepo = salidasRepo;
         this.ksr = ksr;
         this.tipoJabaRepo = tipoJabaRepo;
+        this.tjmRepo = tjmRepo;
     }
 
     @GetMapping(path = {"", "/all"})
@@ -54,12 +58,25 @@ public class BoletaController {
         return boletaRepository.findById(id).get();
     }
 
-    @PostMapping(value="/save", 
+    @PostMapping(path={"", "/save"},
     produces = MediaType.APPLICATION_JSON_VALUE, 
     consumes = MediaType.APPLICATION_JSON_VALUE)
      public Boleta save(@RequestBody Boleta entry) throws Exception{
         if (entry.isClose())
             throw new Exception("Error: Boleta cerrada, no se puede guardar cambios");
+
+        TipoJabaMatriz tjDefalt = null;
+        if(entry.getProveedor().getTipoJaba() != null)
+            tjDefalt = entry.getProveedor().getTipoJaba();
+        else{
+            try{
+                tjDefalt = tjmRepo.findByDefaultJaba(true);
+            }catch (Exception err){
+                System.out.println(err.getMessage());
+            }
+
+        }
+        entry = Utils.boletaChecked(entry, tjDefalt);
 
         entry.getItemsEntrada().stream()
         .forEach(entrada ->{

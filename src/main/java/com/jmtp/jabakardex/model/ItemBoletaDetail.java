@@ -57,6 +57,14 @@ public abstract class ItemBoletaDetail extends AbstractDocument{
     }
 
     @JsonIgnore
+    public void checkingJabas(TipoJabaMatriz defaultTJ){
+        int dif = getCantidad() - tipoJabaLenght();
+        if(dif>0){
+            getTipoJaba().add(new ItemTipoJaba(dif,defaultTJ));
+        }
+    }
+
+    @JsonIgnore
     public int tipoJabaLenght(){
         int i = 0;
 

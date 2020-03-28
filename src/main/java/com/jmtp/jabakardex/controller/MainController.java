@@ -17,6 +17,7 @@ public class MainController{
     private SerieBoletaRepository sbRepo;
     private TipoJabaMatrizRepository tjmRepo;
     private ProveedorRepository pRepo;
+    private TipoOperacionRepository opRepo;
 
     private ItemTipoJabaRepository itjRepo;
     private ItemsEntradaRepository entradasBoletaRepo;
@@ -27,6 +28,7 @@ public class MainController{
             SerieBoletaRepository sbRepo,
             TipoJabaMatrizRepository tjmRepo,
             ProveedorRepository pRepo,
+            TipoOperacionRepository opRepo,
             ItemTipoJabaRepository itjRepo,
             ItemsEntradaRepository entradasBoletaRepo,
             ItemsSalidaRepository salidasBoletaRepo,
@@ -34,6 +36,7 @@ public class MainController{
         this.sbRepo = sbRepo;
         this.tjmRepo = tjmRepo;
         this.pRepo = pRepo;
+        this.opRepo = opRepo;
         this.itjRepo = itjRepo;
         this.entradasBoletaRepo = entradasBoletaRepo;
         this.salidasBoletaRepo = salidasBoletaRepo;
@@ -45,18 +48,31 @@ public class MainController{
         return "Hola desde JabaKardex";
     }
 
+    @GetMapping(path={"kardex"})
+    public String[][] kardex(){
+        String[][] r = {{"qwer","asdf","erty"},{"1q2w","3e4r5t","1q2w3e"},{"123","345","678"}};
+        return r;
+    }
+
     @GetMapping("/initdb")
     public Boleta initDB(){
         //====================Matrices=======================
+        List<TipoOperacion> operaciones = new ArrayList<>();
+        operaciones.add(new TipoOperacion("COMPRA","Adquisición de producto"));
+        operaciones.add(new TipoOperacion("VENTA","Transacción de salida de producto."));
+        operaciones = opRepo.saveAll(operaciones);
+
         List<SerieBoleta> series = new ArrayList<>();
-        series.add(new SerieBoleta("001","Serie interna de control"));
-        series.add(new SerieBoleta("002","Serie de compra acopio"));
-        series.add(new SerieBoleta("BC003","Serie de compra camión rojo"));
-        series.add(new SerieBoleta("BC004","Serie de compra camión blanco"));
+        series.add(new SerieBoleta("001","Serie interna de control", operaciones.get(0)));
+        series.add(new SerieBoleta("002","Serie de compra acopio", operaciones.get(0)));
+        series.add(new SerieBoleta("BC003","Serie de compra camión rojo", operaciones.get(0)));
+        series.add(new SerieBoleta("BC004","Serie de compra camión blanco", operaciones.get(0)));
+        series.add(new SerieBoleta("BV001","Serie de venta del acopio", operaciones.get(1)));
+        series.add(new SerieBoleta("BV002","Serie de venta del camión", operaciones.get(1)));
         series = sbRepo.saveAll(series);
 
         List<TipoJabaMatriz> tipoJabas = new ArrayList<>();
-        tipoJabas.add(new TipoJabaMatriz("Color","c"));
+        tipoJabas.add(new TipoJabaMatriz("Color","c",true));
         tipoJabas.add(new TipoJabaMatriz("Danper","d"));
         tipoJabas.add(new TipoJabaMatriz("Beta","b"));
         tipoJabas.add(new TipoJabaMatriz("Viru","v"));
@@ -69,7 +85,7 @@ public class MainController{
         proveedores.add(new Proveedor("Mia T.","Mia Mauren","Ticona Verdeguer"));
         proveedores.add(new Proveedor("Donovan T.","Donovan Ian","Ticona Verdeguer"));
         proveedores.add(new Proveedor("Dino Q.","Dino","Quijano"));
-        proveedores.add(new Proveedor("Mauricia M.","Mauricia","Mejía"));
+        proveedores.add(new Proveedor("Mauricia M.","Mauricia","Mejía", tipoJabas.get(1)));
         proveedores.add(new Proveedor("Luis M.","Luis","Morales"));
         proveedores.add(new Proveedor("Yolvi B.","Yolvi","Blas"));
         proveedores = pRepo.saveAll(proveedores);

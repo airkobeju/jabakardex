@@ -20,7 +20,7 @@ public class TipoJabaMatrizController {
         this.tjmr = tjmr;
     }
 
-    @GetMapping("/all")
+    @GetMapping(path = {"", "/all"})
     public List<TipoJabaMatriz> getAll(){
         return tjmr.findAll( Sort.by(Sort.Direction.ASC, "name") );
     }

@@ -1,6 +1,5 @@
 package com.jmtp.jabakardex.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,6 +9,7 @@ public class TipoJabaMatriz extends AbstractDocument{
     private String name;
     @Indexed(unique = true)
     private String abreviacion;
+    private boolean defaultJaba = false;
 
     public TipoJabaMatriz(){
         super();
@@ -18,6 +18,12 @@ public class TipoJabaMatriz extends AbstractDocument{
     public TipoJabaMatriz(String name, String abreviacion) {
         this.name = name;
         this.abreviacion = abreviacion;
+    }
+
+    public TipoJabaMatriz(String name, String abreviacion, boolean defaultJaba) {
+        this.name = name;
+        this.abreviacion = abreviacion;
+        this.defaultJaba = defaultJaba;
     }
 
     public void setName(String name){
@@ -32,5 +38,12 @@ public class TipoJabaMatriz extends AbstractDocument{
     }
     public String getAbreviacion(){
         return this.abreviacion;
+    }
+
+    public boolean isDefaultJaba() {
+        return defaultJaba;
+    }
+    public void setDefaultJaba(boolean defaultJaba) {
+        this.defaultJaba = defaultJaba;
     }
 }

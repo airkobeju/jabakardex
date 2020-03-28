@@ -2,6 +2,7 @@ package com.jmtp.jabakardex.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mongodb.lang.Nullable;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "serie_boleta")
@@ -10,6 +11,7 @@ public class SerieBoleta extends AbstractDocument {
     private String value;
     @Nullable
     private String nota;
+    @DBRef private TipoOperacion operacion;
 
     public SerieBoleta() {
         super();
@@ -22,6 +24,17 @@ public class SerieBoleta extends AbstractDocument {
     public SerieBoleta(String value, String nota) {
         this.value = value;
         this.nota = nota;
+    }
+
+    public SerieBoleta(String value, TipoOperacion operacion) {
+        this.value = value;
+        this.operacion = operacion;
+    }
+
+    public SerieBoleta(String value, @Nullable String nota, TipoOperacion operacion) {
+        this.value = value;
+        this.nota = nota;
+        this.operacion = operacion;
     }
 
     public String getValue() {
@@ -38,6 +51,14 @@ public class SerieBoleta extends AbstractDocument {
 
     public void setNota(String nota) {
         this.nota = nota;
+    }
+
+    public TipoOperacion getOperacion() {
+        return operacion;
+    }
+
+    public void setOperacion(TipoOperacion operacion) {
+        this.operacion = operacion;
     }
 
     @Override

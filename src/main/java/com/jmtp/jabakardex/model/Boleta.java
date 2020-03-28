@@ -35,7 +35,6 @@ public class Boleta extends AbstractDocument {
         this.fecha=fecha;
         this.proveedor=proveedor;
     }
-
     public Boleta(SerieBoleta serie, Long numeracion, LocalDate fecha, Proveedor proveedor, String nota) {
         this.serie = serie;
         this.numeracion = numeracion;
