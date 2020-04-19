@@ -22,7 +22,7 @@ public class ProveedorController {
         this.proveedorRepository = proveedorRepository;
     }
 
-    @GetMapping("/all")
+    @GetMapping(path={"","/all"})
     public List<Proveedor> getAll(){
         return proveedorRepository.findAll();
     }

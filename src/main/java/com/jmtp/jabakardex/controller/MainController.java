@@ -2,13 +2,26 @@ package com.jmtp.jabakardex.controller;
 
 import com.jmtp.jabakardex.model.*;
 import com.jmtp.jabakardex.repository.*;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/rest")
@@ -49,9 +62,129 @@ public class MainController{
     }
 
     @GetMapping(path={"kardex"})
-    public String[][] kardex(){
-        String[][] r = {{"qwer","asdf","erty"},{"1q2w","3e4r5t","1q2w3e"},{"123","345","678"}};
-        return r;
+    public List<Map> kardex(){
+        List<Boleta> boletas = boletaRepo.findAll(
+                Sort.by(Sort.Order.desc("fecha"),
+                Sort.Order.desc("numeracion")));
+        List<Map> lst = new ArrayList<>();
+
+        for(Boleta b: boletas){
+            Map<String,Object> item = new HashMap<>();
+            item.put("id", b.getId());
+            item.put("fecha", b.getFecha());
+            item.put("proveedor", b.getProveedor().getName());
+            item.put("serie", b.getSerie().getValue());
+            item.put("numeracion", b.getNumeracion());
+
+            List<TipoJabaMatriz> tipoJabas = tjmRepo.findAll(Sort.by(Sort.Order.asc("name")));
+
+            for(TipoJabaMatriz tj: tipoJabas){
+                item.put("e_"+tj.getName().toLowerCase(), 0);
+                item.put("s_"+tj.getName().toLowerCase(), 0);
+            }
+
+            for(ItemsEntrada ie: b.getItemsEntrada()){
+                Integer cantidad = 0;
+                for(ItemTipoJaba itj: ie.getTipoJaba() ){
+                    item.replace("e_"+itj.getTipoJaba().getName().toLowerCase(),itj.getCantidad());
+                }
+            }
+            for(ItemsSalida ie: b.getItemsSalida()){
+                Integer cantidad = 0;
+                for(ItemTipoJaba itj: ie.getTipoJaba() ){
+                    item.replace("s_"+itj.getTipoJaba().getName().toLowerCase(),itj.getCantidad());
+                }
+            }
+
+            lst.add(item);
+        }
+
+
+        return lst;
+    }
+
+    @GetMapping(path={"kardex/export"})
+    public ResponseEntity<InputStreamResource> exportKardex() throws Exception{
+        Workbook workbook = new HSSFWorkbook();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        Sheet sheet = workbook.createSheet("Kardex");
+        Row row_0 = sheet.createRow(0);
+
+        row_0.createCell(0).setCellValue("ID");
+        row_0.createCell(1).setCellValue("FECHA");
+        row_0.createCell(2).setCellValue("PROVEEDOR");
+        row_0.createCell(3).setCellValue("SERIE");
+        row_0.createCell(4).setCellValue("N°");
+
+        List<Boleta> boletas = boletaRepo.findAll(
+                Sort.by(Sort.Order.desc("fecha"),
+                        Sort.Order.desc("numeracion")));
+        List<TipoJabaMatriz> tipoJabas = tjmRepo.findAll(Sort.by(Sort.Order.asc("name")));
+
+        int i = 5;
+        //Entradas
+        for(TipoJabaMatriz j: tipoJabas){
+            row_0.createCell(i).setCellValue("E"+j.getName().toUpperCase());
+            i++;
+        }
+        //Salidas
+        for(TipoJabaMatriz j: tipoJabas){
+            row_0.createCell(i).setCellValue("S"+j.getName().toUpperCase());
+            i++;
+        }
+
+        i = 1;
+        for(Boleta b: boletas){
+            Row row = sheet.createRow(i);
+            row.createCell(0).setCellValue(b.getId());
+            row.createCell(1).setCellValue(b.getFecha().toString());
+            row.createCell(2).setCellValue(b.getProveedor().getName());
+            row.createCell(3).setCellValue(b.getSerie().getValue());
+            row.createCell(4).setCellValue(b.getNumeracion().toString());
+
+            for(int _c=5; _c < (2*tipoJabas.size())+5; _c++){
+                row.createCell(_c).setCellValue(0);
+            }
+            //Entradas
+            for(ItemsEntrada ie:b.getItemsEntrada()){
+                for(ItemTipoJaba itj:ie.getTipoJaba()){
+                    int col_cell = 5;
+                    for(TipoJabaMatriz j: tipoJabas){
+                        if( itj.getTipoJaba().getName().equalsIgnoreCase(j.getName()) ){
+                            double pss = row.getCell(col_cell).getNumericCellValue();
+                            row.getCell(col_cell).setCellValue(pss + itj.getCantidad());
+                        }
+                        col_cell++;
+                    }
+                }
+            }
+
+            //Salidas
+            for(ItemsSalida is:b.getItemsSalida()){
+                for(ItemTipoJaba itj:is.getTipoJaba()){
+                    int col_cell = 5 + tipoJabas.size();
+                    for(TipoJabaMatriz j: tipoJabas){
+                        if( itj.getTipoJaba().getName().equalsIgnoreCase(j.getName()) ){
+                            double pss = row.getCell(col_cell).getNumericCellValue();
+                            row.getCell(col_cell).setCellValue(pss + itj.getCantidad());
+                        }
+                        col_cell++;
+                    }
+                }
+            }
+
+            i++;
+        }
+
+        workbook.write(stream);
+        workbook.close();
+        ByteArrayInputStream salida = new ByteArrayInputStream(stream.toByteArray());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=kardex.xls");
+
+        return ResponseEntity.ok().headers(headers).body(new InputStreamResource(salida));
     }
 
     @GetMapping("/initdb")

@@ -45,7 +45,9 @@ public class BoletaController {
 
     @GetMapping(path = {"", "/all"})
     public List<Boleta> getAll(){
-        return boletaRepository.findAll(Sort.by(Sort.Direction.DESC, "fecha"));
+        return boletaRepository.findAll(
+                Sort.by(Sort.Order.desc("fecha"),
+                Sort.Order.desc("numeracion")));
     }
 
     @PostMapping("/get")
@@ -66,7 +68,7 @@ public class BoletaController {
             throw new Exception("Error: Boleta cerrada, no se puede guardar cambios");
 
         TipoJabaMatriz tjDefalt = null;
-        if(entry.getProveedor().getTipoJaba() != null)
+        if(entry.getProveedor().getTipoJaba() != null && entry.getProveedor().getTipoJaba().getId() != null)
             tjDefalt = entry.getProveedor().getTipoJaba();
         else{
             try{
@@ -74,7 +76,6 @@ public class BoletaController {
             }catch (Exception err){
                 System.out.println(err.getMessage());
             }
-
         }
         entry = Utils.boletaChecked(entry, tjDefalt);
 
