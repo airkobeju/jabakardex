@@ -7,6 +7,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 
+
 @SpringBootApplication
 public class DemoApplication {
 
@@ -26,10 +27,13 @@ public class DemoApplication {
 	private Connector redirectConnector() {
 		Connector connector = new Connector("AJP/1.3");
 		connector.setScheme("http");
-		connector.setPort(8095);
+		connector.setPort(9090);
 		connector.setSecure(false);
 		connector.setAllowTrace(false);
 		return connector;
 	}
 
+	
+
+	
 }
