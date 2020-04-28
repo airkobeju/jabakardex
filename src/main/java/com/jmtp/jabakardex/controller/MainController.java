@@ -182,7 +182,7 @@ public class MainController{
         ByteArrayInputStream salida = new ByteArrayInputStream(stream.toByteArray());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=kardex.xls");
+        headers.add("Content-Disposition", "attachment;filename=kardex.xls");
 
         return ResponseEntity.ok().headers(headers).body(new InputStreamResource(salida));
     }
